@@ -1,0 +1,13 @@
+# Virtual environments
+venv/
+env/
+.venv/
+.virtualenv/
+
+# PyCharm files
+.idea/
+*.iml
+*.ipr
+*.iws
+
+__pycache__/
