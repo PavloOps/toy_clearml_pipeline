@@ -1,9 +1,8 @@
 from clearml import Task, Dataset, TaskTypes
 import pandas as pd
 from pathlib import Path
-import joblib
 import matplotlib.pyplot as plt
-from sklearn.linear_model import LogisticRegression
+from catboost import CatBoostClassifier
 import global_config
 import seaborn as sns
 from sklearn.metrics import confusion_matrix
@@ -14,8 +13,7 @@ from sklearn.metrics import confusion_matrix
 task = Task.init(
     project_name=global_config.PROJECT_NAME,
     task_name="Pipeline step 3 train model",
-    auto_connect_frameworks={'joblib': '*.pkl'},
-    tags=["Kaggle"],
+    tags=["Kaggle", "Titanic", "Holdout", "Catboost"],
     task_type=TaskTypes.training
 )
 
@@ -26,7 +24,7 @@ args = {
 task.connect(args)
 
 # only create the task, we will actually execute it later; makes DRAFT mode
-task.execute_remotely()
+# task.execute_remotely()
 
 print('Retrieving Titanic Dataset')
 
@@ -46,18 +44,20 @@ if args['dataset_id']:
 else:
     raise ValueError("Missing dataset id")
 
+model = CatBoostClassifier(allow_writing_files=False, random_seed=777, verbose=True)
+model.fit(X_train, y_train, eval_set=(X_val, y_val), use_best_model=True, early_stopping_rounds=50)
+print("Best validation score:", model.best_score_)
+print("Iterations' amount:", model.tree_count_)
 
-model = LogisticRegression()
-model.fit(X_train, y_train)
-joblib.dump(model, 'logreg_titanic_model.pkl', compress=True)
+model.save_model("titainc_model.cbm")
 print('Model is trained & stored')
+
 
 y_pred = model.predict(X_val)
 cm = confusion_matrix(y_val, y_pred)
 print("Confusion Matrix")
 print(cm)
 
-# Создаем heatmap с seaborn
 plt.figure(figsize=(8, 6))
 sns.heatmap(cm, annot=True, fmt="d", cmap="Blues", cbar=False)
 plt.xlabel("Predicted")
@@ -66,3 +66,4 @@ plt.title("Confusion Matrix")
 plt.show()
 
 print('Done')
+task.close()

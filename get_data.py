@@ -25,7 +25,7 @@ print(df.head())
 # Create a ClearML dataset
 dataset = Dataset.create(
     dataset_name='Titanic Kaggle Dataset',
-    dataset_project=global_config.PROJECT_NAME
+    dataset_project=global_config.PROJECT_NAME,
 )
 # Add the local files we downloaded earlier
 dataset.add_files(dataset_path)
