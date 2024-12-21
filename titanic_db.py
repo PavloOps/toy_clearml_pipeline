@@ -2,7 +2,12 @@ import pandas as pd
 import psycopg2
 from tqdm import tqdm
 
-connection = psycopg2.connect(**params)
+connection = psycopg2.connect(**{
+    "user": "postgres",
+    "password": "123",
+    "database": "s_zdorovie",
+    "host": "localhost"
+})
 
 
 def check_database():
