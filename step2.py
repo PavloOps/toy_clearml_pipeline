@@ -3,7 +3,6 @@ import psycopg2
 
 connection_params = {
     "host": "TO BE OVERRIDE",
-    "port": "TO BE OVERRIDE",
     "user": "TO BE OVERRIDE",
     "password": "TO BE OVERRIDE",
     "database": "TO BE OVERRIDE"
