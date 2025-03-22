@@ -1,8 +1,8 @@
 from clearml import Task, TaskTypes
+import psycopg2
 
 connection_params = {
     "host": "TO BE OVERRIDE",
-    "port": "TO BE OVERRIDE",
     "user": "TO BE OVERRIDE",
     "password": "TO BE OVERRIDE",
     "database": "TO BE OVERRIDE"
@@ -20,3 +20,11 @@ print('Database Arguments: {}'.format(connection_params))
 task.execute_remotely()
 
 print("Hello from task 1")
+with psycopg2.connect(**connection_params) as connection:
+    with connection.cursor() as cursor:
+        cursor.execute('''
+        SELECT COUNT(*)
+        FROM reference_data.product p''')
+        result = cursor.fetchone()
+print(result)
+print("Done!")

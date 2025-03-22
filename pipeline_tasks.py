@@ -19,11 +19,10 @@ if __name__ == '__main__':
     )
 
     pipe_params = {
-        "host": "localhost",
-        "port": "5432",
         "user": "postgres",
         "password": "123",
-        "database": "postgres"
+        "database": "zdorovie_three_years",
+        "host": "localhost"
     }   # добавила, чтобы посмотреть, как работает оверрайд, в коде просто принты
 
     for k, v in pipe_params.items():
