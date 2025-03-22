@@ -36,7 +36,6 @@ if __name__ == '__main__':
         base_task_name="Step 1",
         parameter_override={
             "Database/host": "${pipeline.host}",
-            "Database/port": "${pipeline.port}",
             "Database/user": "${pipeline.user}",
             "Database/password": "${pipeline.password}",
             "Database/database": "${pipeline.database}",
@@ -53,7 +52,6 @@ if __name__ == '__main__':
         parents=['step1'],
         parameter_override={
             "Database/host": "${pipeline.host}",
-            "Database/port": "${pipeline.port}",
             "Database/user": "${pipeline.user}",
             "Database/password": "${pipeline.password}",
             "Database/database": "${pipeline.database}",
